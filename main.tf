@@ -18,7 +18,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-1"
+  region = "us-east-1"
 }
 
 resource "aws_security_group" "instance_sg" {
@@ -42,9 +42,10 @@ resource "aws_security_group" "instance_sg" {
 }
 
 resource "aws_instance" "ec2_instance" {
-  ami           = "ami-0fc5d935ebf8bc3bc"
-  instance_type = "t2.nano"
-  key_name      = "hackathon-ii-ittalent"
+  ami                         = "ami-0fc5d935ebf8bc3bc"
+  instance_type               = "t2.nano"
+  key_name                    = "hackathon-ii-ittalent"
+  associate_public_ip_address = true
 
   tags = {
     Name = "ITTalent-Hackathon-II"
@@ -58,5 +59,8 @@ resource "aws_instance" "ec2_instance" {
 }
 
 output "ec2_public_ips" {
-  value = aws_instance.ec2_instance.public_ip
+  value = {
+    public_ip  = aws_instance.ec2_instance.public_ip
+    public_dns = aws_instance.ec2_instance.public_dns
+  }
 }
